@@ -1,8 +1,8 @@
 package com.element34.test;
 
+import static com.element34.test.Run.GSON;
+
 import com.element34.report.Log;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,6 +11,7 @@ import java.io.StringWriter;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,26 +27,32 @@ public class TestResult {
   private Throwable throwable;
   private long start;
   private long end;
+  private final String id = UUID.randomUUID().toString();
   private String aPackage;
   private String clazz;
   private String method;
   private List<SimpleEntry<String, String>> tags = new ArrayList<>();
   private List<Log> logs = new ArrayList<>();
-  private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+  private Object[] params = new Object[0];
 
   public static TestResult getCurrentTestResult() {
     TestResult res = results.get();
     if (res == null) {
-      logger.warn("Cannot access TestResult of a non selenium augmented test.");
+      // logger.warn("Cannot access TestResult of a non selenium augmented test.");
+      res = create();
     }
     return res;
   }
 
   public static TestResult create() {
+    TestResult result = null;
     if (results.get() != null) {
       logger.warn("Trying to ceate a result on a non empty thread.");
+      result = results.get();
+    } else {
+      result = new TestResult();
     }
-    TestResult result = new TestResult();
     result.setStart(System.currentTimeMillis());
     results.set(result);
     return result;
@@ -80,9 +87,9 @@ public class TestResult {
   }
 
 
-  @Override
-  public String toString() {
+  public JsonObject toJSON() {
     JsonObject result = new JsonObject();
+    result.addProperty("id", id);
     result.addProperty("package", aPackage);
     result.addProperty("clazz", clazz);
     result.addProperty("method", method);
@@ -95,24 +102,40 @@ public class TestResult {
       PrintWriter pw = new PrintWriter(sw);
       throwable.printStackTrace(pw);
       String trace = sw.toString();
+      result.addProperty("error", throwable.getClass().getSimpleName() + ":" + throwable.getMessage());
       result.addProperty("throwable", trace);
     }
     result.addProperty("sessionId", sessionId);
     JsonArray array = new JsonArray();
     for (SimpleEntry<String, String> entry : tags) {
       JsonObject tag = new JsonObject();
-      tag.addProperty(entry.getKey(), entry.getValue());
+      tag.addProperty("name", entry.getKey());
+      tag.addProperty("value", entry.getValue());
       array.add(tag);
     }
     result.add("tags", array);
 
     JsonArray logs = new JsonArray();
     for (Log log : this.logs) {
-      JsonElement l = gson.toJsonTree(log);
+      JsonElement l = GSON.toJsonTree(log);
       logs.add(l);
     }
     result.add("logs", logs);
-    return gson.toJson(result);
+    JsonArray parameterTypes = new JsonArray();
+    for (Object p : params) {
+      if (p != null) {
+        parameterTypes.add("(" + p.getClass().getSimpleName() + ")" + p.toString());
+      } else {
+        parameterTypes.add("null");
+      }
+    }
+    result.add("params", parameterTypes);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return GSON.toJson(toJSON());
   }
 
   public void setPackage(String aPackage) {
@@ -134,4 +157,9 @@ public class TestResult {
   public void add(Log log) {
     logs.add(log);
   }
+
+  public void setParams(Object[] params) {
+    this.params = params;
+  }
+
 }

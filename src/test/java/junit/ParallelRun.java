@@ -6,9 +6,6 @@ import org.junit.Test;
 import org.junit.experimental.ParallelComputer;
 import org.junit.rules.TestRule;
 import org.junit.runner.JUnitCore;
-import page.SeleniumTest;
-import page.SeleniumTest2;
-import page.SeleniumTest3;
 
 /**
  * Created by freynaud on 03/09/2017.

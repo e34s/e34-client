@@ -1,6 +1,10 @@
 package com.element34.report;
 
+import com.element34.test.Run;
 import com.element34.test.TestResult;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -11,16 +15,25 @@ public class ReportSink {
 
   private final static Logger logger = LoggerFactory.getLogger(ReportSink.class);
 
-  private List<TestResult> results = new ArrayList();
+  private final Run run = new Run();
   private static ReportSink SINK = new ReportSink();
 
 
   public static synchronized void addResult(TestResult result) {
-    SINK.results.add(result);
+    SINK.run.add(result);
   }
 
-  public static synchronized void generateReport() {
-    logger.warn(SINK.results.toString());
+  public static synchronized void generateReport(File outputFolder) {
+    String content = SINK.run.toString();
+    outputFolder.mkdirs();
+    File data = new File(outputFolder, "data.js");
+    try {
+      FileWriter writer = new FileWriter(data);
+      writer.write("var result_new="+content);
+      writer.close();
+    } catch (IOException e) {
+      logger.warn(e.getMessage(), e);
+    }
   }
 
 }

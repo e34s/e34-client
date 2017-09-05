@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.Augmenter;
@@ -19,16 +18,10 @@ import org.slf4j.LoggerFactory;
 public class DriverAutoLogAugmenter {
 
   private final static Logger logger = LoggerFactory.getLogger(DriverAutoLogAugmenter.class);
-  private static String globalSuiteId = null;
-  public static List<String> TESTS = new CopyOnWriteArrayList<>();
-
-
 
 
   public WebDriver augment(WebDriver base) {
     base = new Augmenter().augment(base);
-
-    //Method method = findTest();
 
     InvocationHandler handler = new DriverAutoLogHandler(base);
     List<Class> classes = new ArrayList<>();
@@ -41,14 +34,9 @@ public class DriverAutoLogAugmenter {
     if (base instanceof RemoteWebDriver) {
       RemoteWebDriver rd = (RemoteWebDriver) base;
       result.setSessionId(rd.getSessionId().toString());
-      result.addTag("browser",rd.getCapabilities().getBrowserName());
+      result.addTag("browser", rd.getCapabilities().getBrowserName());
     }
-//    result.setPackage(method.getDeclaringClass().getPackage().getName());
-//    result.setClazz(method.getDeclaringClass().getCanonicalName());
-//    result.setMethod(method.getName());
-
     return (WebDriver) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), classes.toArray(new Class[0]), handler);
-
   }
 
 //  private Method findTest() {

@@ -21,9 +21,15 @@ public class WebElementAutoLogHandler implements InvocationHandler {
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    logger.info("WE:before invoking " + method.getName() + "(" + args + ")");
-    Object res = method.invoke(base, args);
-    logger.info("WE:will return " + res);
+    logger.debug("WE:before invoking " + method.getName() + "(" + args + ")");
+
+    Object res;
+    try {
+      res = method.invoke(base, args);
+    } catch (Throwable t) {
+      throw t.getCause();
+    }
+    logger.debug("WE:will return " + res);
     return res;
   }
 }

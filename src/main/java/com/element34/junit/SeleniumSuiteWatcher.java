@@ -1,7 +1,7 @@
 package com.element34.junit;
 
 import com.element34.test.E34ReporterListener;
-import com.element34.test.ExecutionListener;
+import com.element34.test.E34ExecutionListener;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SeleniumSuiteWatcher extends TestWatcher {
 
-  ExecutionListener executionListener = new ExecutionListener();
+  E34ExecutionListener executionListener = new E34ExecutionListener();
   E34ReporterListener reporterListener = new E34ReporterListener();
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -3,15 +3,16 @@ package com.element34.test;
 
 import com.element34.report.ReportSink;
 
-public class TestListener {
+public class E34TestListener {
 
 
-  public void onTestStarts(String className, String packageName, String methodName, Object... args) {
+  public void onTestStarts(String className, String packageName, String methodName, Object[] params) {
     TestResult result = TestResult.create();
+    result.setStatus(TestStatus.STARTED);
     result.setPackage(packageName);
     result.setClazz(className);
     result.setMethod(methodName);
-
+    result.setParams(params);
   }
 
   public void onTestPassed() {
@@ -30,5 +31,11 @@ public class TestListener {
   public void onTestFinishes() {
     ReportSink.addResult(TestResult.getCurrentTestResult());
     TestResult.close();
+  }
+
+  public void onTestSkipped(Throwable throwable) {
+    TestResult result = TestResult.getCurrentTestResult();
+    result.setStatus(TestStatus.SKIPPED);
+    result.setThrowable(throwable);
   }
 }

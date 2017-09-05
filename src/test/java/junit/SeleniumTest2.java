@@ -1,9 +1,8 @@
-package page;
+package junit;
 
 import com.element34.webdriver.DriverAutoLogAugmenter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import junit.Settings;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

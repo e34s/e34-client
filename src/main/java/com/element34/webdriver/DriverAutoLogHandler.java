@@ -36,7 +36,7 @@ public class DriverAutoLogHandler implements InvocationHandler {
     logger.info("augmenting session " + sessionId + " on " + url.toExternalForm());
     screenshots = new File("screenshots");
     screenshots.mkdirs();
-    logger.warn("screenshots : "+ screenshots.getAbsolutePath());
+    logger.info("screenshots : " + screenshots.getAbsolutePath());
   }
 
   String getSessionId() {
@@ -47,7 +47,12 @@ public class DriverAutoLogHandler implements InvocationHandler {
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
     EventSink.add(new Log("INFO", "before " + method.getName()));
-    Object res = method.invoke(base, args);
+    Object res = null;
+    try {
+      res = method.invoke(base, args);
+    } catch (Throwable t) {
+      throw t.getCause();
+    }
 
     switch (method.getName()) {
       case "findElement":

@@ -1,4 +1,4 @@
-package page;
+package junit;
 
 import com.element34.junit.SeleniumTestWatcher;
 import org.junit.Rule;

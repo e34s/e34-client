@@ -5,9 +5,6 @@ import org.junit.ClassRule;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import page.SeleniumTest;
-import page.SeleniumTest2;
-import page.SeleniumTest3;
 
 /**
  * Created by freynaud on 31/08/2017.
