@@ -1,4 +1,4 @@
-package testng.page;
+package testng;
 
 import com.element34.webdriver.DriverAutoLogAugmenter;
 import java.io.File;
@@ -14,14 +14,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.Test;
 
-/**
- * Created by freynaud on 05/09/2017.
- */
+
 public class SeleniumTest {
 
-
   @Test
-  public void chrome() throws MalformedURLException {
+  public void chrome() throws MalformedURLException, InterruptedException {
     WebDriver driver = new RemoteWebDriver(new URL(Settings.getHub()), DesiredCapabilities.chrome());
 
     driver = new DriverAutoLogAugmenter().augment(driver);
@@ -33,5 +30,11 @@ public class SeleniumTest {
     System.out.println(reload.getText());
     //Thread.sleep(20000);
     driver.quit();
+  }
+
+
+  @Test(invocationCount = 100)
+  public void lots(){
+
   }
 }
