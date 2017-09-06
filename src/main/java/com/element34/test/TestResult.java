@@ -3,6 +3,11 @@ package com.element34.test;
 import static com.element34.test.Run.GSON;
 
 import com.element34.report.Log;
+import com.element34.report.ReportSink;
+import com.element34.stream.Event;
+import com.element34.stream.StreamableList;
+import com.element34.stream.UpdateEvent;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,16 +17,20 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class TestResult {
+public class TestResult implements Event {
 
-  private final static Logger logger = LoggerFactory.getLogger(TestResult.class);
-
+  private static final Logger logger = LoggerFactory.getLogger(TestResult.class);
   private static final ThreadLocal<TestResult> results = new InheritableThreadLocal<>();
-  private final List<String> events = new ArrayList<>();
+  private List<Consumer<Event>> listeners = new CopyOnWriteArrayList<>();
+
+
+  private final Run parent;
   private String sessionId;
   private TestStatus status = TestStatus.STARTED;
   private Throwable throwable;
@@ -32,11 +41,17 @@ public class TestResult {
   private String clazz;
   private String method;
   private List<SimpleEntry<String, String>> tags = new ArrayList<>();
-  private List<Log> logs = new ArrayList<>();
+  private StreamableList<Log> logs = new StreamableList<>();
 
   private Object[] params = new Object[0];
 
-  public static TestResult getCurrentTestResult() {
+
+  public TestResult() {
+    parent = ReportSink.currentRun();
+  }
+
+
+  public synchronized static TestResult getCurrentTestResult() {
     TestResult res = results.get();
     if (res == null) {
       // logger.warn("Cannot access TestResult of a non selenium augmented test.");
@@ -45,14 +60,31 @@ public class TestResult {
     return res;
   }
 
-  public static TestResult create() {
+
+  public synchronized void addListener(Consumer<Event> consumer) {
+    listeners.add(consumer);
+    logs.addListener(consumer);
+  }
+
+  public synchronized void removeListener(Consumer<Event> consumer) {
+    listeners.remove(consumer);
+    logs.removeListener(consumer);
+  }
+
+
+  public synchronized static TestResult create() {
     TestResult result = null;
     if (results.get() != null) {
       logger.warn("Trying to ceate a result on a non empty thread.");
       result = results.get();
     } else {
       result = new TestResult();
+      List<Consumer<Event>> consumers = ReportSink.currentRun().getListeners();
+      for (Consumer<Event> consumer : consumers) {
+        result.addListener(consumer);
+      }
     }
+    ReportSink.currentRun().add(result);
     result.setStart(System.currentTimeMillis());
     results.set(result);
     return result;
@@ -66,29 +98,71 @@ public class TestResult {
   }
 
 
-  public void setSessionId(String sessionId) {
+  public synchronized void setSessionId(String sessionId) {
     this.sessionId = sessionId;
+    update("sessionId", sessionId);
   }
 
-  public void setStatus(TestStatus status) {
+  public synchronized void setStatus(TestStatus status) {
     this.status = status;
+    update("status", status);
   }
 
-  public void setThrowable(Throwable throwable) {
+  public synchronized void setThrowable(Throwable throwable) {
     this.throwable = throwable;
+    update("throwable", throwable);
   }
 
-  public void setEnd(long end) {
+  public synchronized void setEnd(long end) {
     this.end = end;
+    update("end", end);
   }
 
-  public void setStart(long start) {
+  public synchronized void setStart(long start) {
     this.start = start;
+    update("start", start);
+  }
+
+  public synchronized void setPackage(String aPackage) {
+    this.aPackage = aPackage;
+    update("package", aPackage);
+  }
+
+  public synchronized void setClazz(String clazz) {
+    this.clazz = clazz;
+    update("clazz", clazz);
+  }
+
+  public synchronized void setMethod(String method) {
+    this.method = method;
+    update("method", method);
+  }
+
+  public synchronized void addTag(String key, String value) {
+    tags.add(new SimpleEntry<>(key, value));
+    update("tags", tags);
+  }
+
+  public synchronized void add(Log log) {
+    log.setTestId(id);
+    logs.add(log);
+  }
+
+  public synchronized void setParams(Object[] params) {
+    this.params = params;
+  }
+
+  private synchronized void update(String key, Object value) {
+    Event event = new UpdateEvent(ImmutableMap.of("type", "result", "id", id, key, value));
+    for (Consumer<Event> listener : listeners) {
+      listener.accept(event);
+    }
   }
 
 
   public JsonObject toJSON() {
     JsonObject result = new JsonObject();
+    result.addProperty("type", "result");
     result.addProperty("id", id);
     result.addProperty("package", aPackage);
     result.addProperty("clazz", clazz);
@@ -124,7 +198,8 @@ public class TestResult {
     JsonArray parameterTypes = new JsonArray();
     for (Object p : params) {
       if (p != null) {
-        parameterTypes.add("(" + p.getClass().getSimpleName() + ")" + p.toString());
+//        parameterTypes.add("(" + p.getClass().getSimpleName() + ")" + p.toString());
+        parameterTypes.add(p.toString());
       } else {
         parameterTypes.add("null");
       }
@@ -138,28 +213,5 @@ public class TestResult {
     return GSON.toJson(toJSON());
   }
 
-  public void setPackage(String aPackage) {
-    this.aPackage = aPackage;
-  }
-
-  public void setClazz(String clazz) {
-    this.clazz = clazz;
-  }
-
-  public void setMethod(String method) {
-    this.method = method;
-  }
-
-  public void addTag(String key, String value) {
-    tags.add(new SimpleEntry<>(key, value));
-  }
-
-  public void add(Log log) {
-    logs.add(log);
-  }
-
-  public void setParams(Object[] params) {
-    this.params = params;
-  }
 
 }

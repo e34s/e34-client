@@ -33,7 +33,7 @@ public class DriverAutoLogHandler implements InvocationHandler {
     this.base = base;
     sessionId = ((RemoteWebDriver) base).getSessionId().toString();
     URL url = ((HttpCommandExecutor) ((RemoteWebDriver) base).getCommandExecutor()).getAddressOfRemoteServer();
-    logger.info("augmenting session " + sessionId + " on " + url.toExternalForm());
+    //logger.info("augmenting session " + sessionId + " on " + url.toExternalForm());
     screenshots = new File("screenshots");
     screenshots.mkdirs();
     logger.info("screenshots : " + screenshots.getAbsolutePath());

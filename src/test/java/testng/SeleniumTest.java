@@ -23,18 +23,18 @@ public class SeleniumTest {
 
     driver = new DriverAutoLogAugmenter().augment(driver);
 
-    driver.get("about:policy");
+    /*driver.get("about:policy");
     WebElement reload = driver.findElement(By.id("reload-policies"));
     TakesScreenshot ts = (TakesScreenshot) driver;
     File f = ts.getScreenshotAs(OutputType.FILE);
     System.out.println(reload.getText());
-    //Thread.sleep(20000);
+    //Thread.sleep(20000);*/
     driver.quit();
   }
 
 
-  @Test(invocationCount = 100)
-  public void lots(){
-
-  }
+//  @Test(invocationCount = 100)
+//  public void lots(){
+//
+//  }
 }

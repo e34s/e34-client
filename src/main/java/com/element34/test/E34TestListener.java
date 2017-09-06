@@ -8,7 +8,8 @@ public class E34TestListener {
 
   public void onTestStarts(String className, String packageName, String methodName, Object[] params) {
     TestResult result = TestResult.create();
-    result.setStatus(TestStatus.STARTED);
+    // done in constructor.
+    //result.setStatus(TestStatus.STARTED);
     result.setPackage(packageName);
     result.setClazz(className);
     result.setMethod(methodName);
@@ -29,7 +30,6 @@ public class E34TestListener {
 
 
   public void onTestFinishes() {
-    ReportSink.addResult(TestResult.getCurrentTestResult());
     TestResult.close();
   }
 

@@ -24,6 +24,7 @@ public class SeleniumSuiteWatcher extends TestWatcher {
 
   @Override
   protected void finished(Description desc) {
+    executionListener.stop();
     reporterListener.generate();
   }
 }

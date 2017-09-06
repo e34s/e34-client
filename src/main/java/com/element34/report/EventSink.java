@@ -14,7 +14,6 @@ public class EventSink {
 
   public static void add(Log log) {
     TestResult result = TestResult.getCurrentTestResult();
-    // TODO freynaud : propagate
     result.add(log);
   }
 }

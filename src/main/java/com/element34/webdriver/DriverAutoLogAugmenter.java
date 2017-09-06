@@ -62,6 +62,5 @@ public class DriverAutoLogAugmenter {
 //
 //  private boolean looksLikeATest(Method m) {
 //    // TODO freynaud : use reflection to not need a dependency here.
-//    return m.getAnnotation(Test.class) != null /*|| m.getAnnotation(org.testng.annotations.Test.class) != null*/;
-//  }
+//    return m.getAnnotation(Test.class) != null /*|| m.getAnnotation(org.testng.annotations.Test.class) != null*///  }*/
 }
