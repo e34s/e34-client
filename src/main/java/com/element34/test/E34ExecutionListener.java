@@ -1,8 +1,7 @@
 package com.element34.test;
 
-import static com.element34.test.Run.sleepTight;
+import static com.element34.Hardcoded.DISABLE_LIVE;
 
-import com.element34.report.ReportSink;
 import com.element34.stream.JettyMonitor;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -24,11 +23,16 @@ public class E34ExecutionListener {
 
     // ReportSink.addListener((event) -> logger.info(event.toString()));
 
-    monitor.start();
+    if (!DISABLE_LIVE) {
+      monitor.start();
+    }
   }
 
   public void stop() {
-    sleepTight(5000);
-    monitor.stop();
+    if (!DISABLE_LIVE) {
+      monitor.stop();
+    }
   }
+
+
 }

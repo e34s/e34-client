@@ -11,8 +11,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +33,13 @@ public class TestResult implements Event {
   private TestStatus status = TestStatus.STARTED;
   private Throwable throwable;
   private long start;
+  private String video;
   private long end;
   private final String id = UUID.randomUUID().toString();
   private String aPackage;
   private String clazz;
   private String method;
-  private List<SimpleEntry<String, String>> tags = new ArrayList<>();
+  private List<SimpleEntry<String, Object>> tags = new ArrayList<>();
   private StreamableList<Log> logs = new StreamableList<>();
 
   private Object[] params = new Object[0];
@@ -54,8 +53,8 @@ public class TestResult implements Event {
   public synchronized static TestResult getCurrentTestResult() {
     TestResult res = results.get();
     if (res == null) {
-      // logger.warn("Cannot access TestResult of a non selenium augmented test.");
-      res = create();
+      logger.warn("Cannot access TestResult of a non selenium augmented test.");
+      return null;
     }
     return res;
   }
@@ -73,21 +72,23 @@ public class TestResult implements Event {
 
 
   public synchronized static TestResult create() {
-    TestResult result = null;
-    if (results.get() != null) {
+    TestResult result = results.get();
+    if (result != null) {
       logger.warn("Trying to ceate a result on a non empty thread.");
-      result = results.get();
+      return result;
     } else {
       result = new TestResult();
+      logger.warn("creating result");
       List<Consumer<Event>> consumers = ReportSink.currentRun().getListeners();
       for (Consumer<Event> consumer : consumers) {
         result.addListener(consumer);
       }
+      ReportSink.currentRun().add(result);
+      logger.warn("now " + ReportSink.currentRun().getResults().size());
+      result.setStart(System.currentTimeMillis());
+      results.set(result);
+      return result;
     }
-    ReportSink.currentRun().add(result);
-    result.setStart(System.currentTimeMillis());
-    results.set(result);
-    return result;
   }
 
   public static TestResult close() {
@@ -97,6 +98,12 @@ public class TestResult implements Event {
     return result;
   }
 
+  private String getError() {
+    if (throwable == null) {
+      return null;
+    }
+    return throwable.getClass().getSimpleName() + ":" + throwable.getMessage();
+  }
 
   public synchronized void setSessionId(String sessionId) {
     this.sessionId = sessionId;
@@ -110,7 +117,8 @@ public class TestResult implements Event {
 
   public synchronized void setThrowable(Throwable throwable) {
     this.throwable = throwable;
-    update("throwable", throwable);
+    update("throwable", new StackTraceSerializer().serialize(throwable));
+    update("error", getError());
   }
 
   public synchronized void setEnd(long end) {
@@ -138,7 +146,7 @@ public class TestResult implements Event {
     update("method", method);
   }
 
-  public synchronized void addTag(String key, String value) {
+  public synchronized void addTag(String key, Object value) {
     tags.add(new SimpleEntry<>(key, value));
     update("tags", tags);
   }
@@ -164,6 +172,7 @@ public class TestResult implements Event {
     JsonObject result = new JsonObject();
     result.addProperty("type", "result");
     result.addProperty("id", id);
+    result.addProperty("video", video);
     result.addProperty("package", aPackage);
     result.addProperty("clazz", clazz);
     result.addProperty("method", method);
@@ -172,19 +181,21 @@ public class TestResult implements Event {
     result.addProperty("duration", end - start);
     result.addProperty("status", status.toString());
     if (throwable != null) {
-      StringWriter sw = new StringWriter();
-      PrintWriter pw = new PrintWriter(sw);
-      throwable.printStackTrace(pw);
-      String trace = sw.toString();
-      result.addProperty("error", throwable.getClass().getSimpleName() + ":" + throwable.getMessage());
-      result.addProperty("throwable", trace);
+      result.addProperty("error", getError());
+      result.add("throwable", new StackTraceSerializer().serialize(throwable));
     }
     result.addProperty("sessionId", sessionId);
     JsonArray array = new JsonArray();
-    for (SimpleEntry<String, String> entry : tags) {
+    for (SimpleEntry<String, Object> entry : tags) {
       JsonObject tag = new JsonObject();
       tag.addProperty("name", entry.getKey());
-      tag.addProperty("value", entry.getValue());
+      if (entry.getValue() instanceof String) {
+        tag.addProperty("value", (String) entry.getValue());
+      } else if (entry.getValue() instanceof Boolean) {
+        tag.addProperty("value", (Boolean) entry.getValue());
+      } else {
+        logger.warn("NI : tag of type " + entry.getValue());
+      }
       array.add(tag);
     }
     result.add("tags", array);
@@ -214,4 +225,11 @@ public class TestResult implements Event {
   }
 
 
+  public void setVideo(String video) {
+    this.video = video;
+  }
+
+  public TestStatus getStatus() {
+    return status;
+  }
 }

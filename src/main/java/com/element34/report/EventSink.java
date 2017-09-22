@@ -1,5 +1,7 @@
 package com.element34.report;
 
+import static com.element34.test.Run.sleepTight;
+
 import com.element34.test.TestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,13 @@ public class EventSink {
 
   public static void add(Log log) {
     TestResult result = TestResult.getCurrentTestResult();
-    result.add(log);
+    if (result == null) {
+      logger.warn("result is null. Cannot sink event " + log);
+      return;
+    } else {
+      // waiting to avoid having 2 events at the exact same timestamp
+      sleepTight(1);
+      result.add(log);
+    }
   }
 }

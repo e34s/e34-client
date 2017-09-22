@@ -35,14 +35,15 @@ public class ReportSink {
   public static synchronized void generateReport(File outputFolder) {
     String content = SINK.run.toString();
     outputFolder.mkdirs();
+    logger.info(content);
     File data = new File(outputFolder, "data.js");
-//    try {
-//      FileWriter writer = new FileWriter(data);
-//      writer.write("var result_new=" + content);
-//      writer.close();
-//    } catch (IOException e) {
-//      logger.warn(e.getMessage(), e);
-//    }
+    try {
+      FileWriter writer = new FileWriter(data);
+      writer.write("var result_new=" + content);
+      writer.close();
+    } catch (IOException e) {
+      logger.warn(e.getMessage(), e);
+    }
   }
 
   public static void removeListener(Consumer<Event> consumer) {

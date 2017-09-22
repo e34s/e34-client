@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
  */
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({SeleniumTest.class, SeleniumTest2.class, SeleniumTest3.class})
+@Suite.SuiteClasses({/*SeleniumTest.class, SeleniumTest2.class, */SeleniumTest3.class})
 public class JunitSuite {
 
   @ClassRule

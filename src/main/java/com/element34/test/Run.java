@@ -1,5 +1,8 @@
 package com.element34.test;
 
+import static com.element34.test.TestStatus.FAILED;
+import static com.element34.test.TestStatus.SKIPPED;
+
 import com.element34.stream.Event;
 import com.element34.stream.StreamableList;
 import com.element34.stream.UpdateEvent;
@@ -12,11 +15,15 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by freynaud on 05/09/2017.
  */
 public class Run implements Event {
+
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private String name;
   private TestStatus status = TestStatus.STARTED;
@@ -37,8 +44,8 @@ public class Run implements Event {
 
 
   public synchronized void add(TestResult result) {
+    logger.warn("adding result " + result.toString());
     results.add(result);
-
   }
 
   @Override
@@ -50,7 +57,7 @@ public class Run implements Event {
     JsonObject run = new JsonObject();
     run.addProperty("type", "run");
     run.addProperty("name", name);
-    run.addProperty("status", status.toString());
+    run.addProperty("status", computeStatus().toString());
     JsonArray results = new JsonArray();
     for (TestResult result : this.results) {
       results.add(result.toJSON());
@@ -100,5 +107,22 @@ public class Run implements Event {
       Thread.sleep(ms);
     } catch (InterruptedException e) {
     }
+  }
+
+  private TestStatus computeStatus() {
+    TestStatus status = TestStatus.PASSED;
+    for (TestResult result : results) {
+      if (result.getStatus() == FAILED) {
+        return FAILED;
+      }
+      if (result.getStatus() == SKIPPED) {
+        status = SKIPPED;
+      }
+    }
+    return status;
+  }
+
+  public StreamableList<TestResult> getResults() {
+    return results;
   }
 }

@@ -5,6 +5,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import junit.Settings;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -25,13 +27,16 @@ public class SeleniumTest2 {
 
   @BeforeMethod
   public void setup() throws MalformedURLException {
-    WebDriver d = new RemoteWebDriver(new URL(Settings.getHub()), DesiredCapabilities.chrome());
+    DesiredCapabilities cap = DesiredCapabilities.chrome();
+    cap.setCapability("video", true);
+    WebDriver d = new RemoteWebDriver(new URL(Settings.getHub()), cap);
     d = new DriverAutoLogAugmenter().augment(d);
     driver.set(d);
   }
 
   @AfterMethod
   public void teardown() {
+    logger.info("TEARDOWN");
     driver.get().quit();
     driver.remove();
   }
@@ -42,8 +47,8 @@ public class SeleniumTest2 {
     WebDriver d = driver.get();
     d.get("about:policy");
     d.findElement(By.id("reload-policies"));
-    //Thread.sleep(20000);
-
+    Thread.sleep(20000);
+    ((TakesScreenshot) d).getScreenshotAs(OutputType.FILE);
   }
 
 
@@ -54,6 +59,7 @@ public class SeleniumTest2 {
     d.findElement(By.id("reload-policies"));
     //Thread.sleep(20000);
   }
+
   @Test
   public void chromeFail() throws MalformedURLException, InterruptedException {
     WebDriver d = driver.get();

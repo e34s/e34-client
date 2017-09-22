@@ -16,6 +16,6 @@ public class ExecutionListener implements IExecutionListener {
 
   @Override
   public void onExecutionFinish() {
-
+    e34ExecutionListener.stop();
   }
 }

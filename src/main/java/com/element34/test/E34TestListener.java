@@ -8,8 +8,6 @@ public class E34TestListener {
 
   public void onTestStarts(String className, String packageName, String methodName, Object[] params) {
     TestResult result = TestResult.create();
-    // done in constructor.
-    //result.setStatus(TestStatus.STARTED);
     result.setPackage(packageName);
     result.setClazz(className);
     result.setMethod(methodName);

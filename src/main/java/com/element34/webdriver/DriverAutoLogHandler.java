@@ -1,18 +1,21 @@
 package com.element34.webdriver;
 
+import static com.element34.Hardcoded.DEST;
+import static com.element34.Hardcoded.SCREENSHOTS_FOLDER;
+
 import com.element34.report.EventSink;
-import com.element34.report.Log;
 import com.element34.report.ScreenshotLog;
 import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +35,7 @@ public class DriverAutoLogHandler implements InvocationHandler {
   public DriverAutoLogHandler(WebDriver base) {
     this.base = base;
     sessionId = ((RemoteWebDriver) base).getSessionId().toString();
-    URL url = ((HttpCommandExecutor) ((RemoteWebDriver) base).getCommandExecutor()).getAddressOfRemoteServer();
-    //logger.info("augmenting session " + sessionId + " on " + url.toExternalForm());
-    screenshots = new File("screenshots");
+    screenshots = new File(DEST, SCREENSHOTS_FOLDER);
     screenshots.mkdirs();
     logger.info("screenshots : " + screenshots.getAbsolutePath());
   }
@@ -46,33 +47,86 @@ public class DriverAutoLogHandler implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-    EventSink.add(new Log("INFO", "before " + method.getName()));
     Object res = null;
-    try {
-      res = method.invoke(base, args);
-    } catch (Throwable t) {
-      throw t.getCause();
+
+    if (args != null) {
+      for (int i = 0; i < args.length; i++) {
+        Object o = args[i];
+        args[i] = extractElementFromProxy(o);
+      }
     }
 
+    long start = System.currentTimeMillis();
+    long duration;
+    try {
+      res = method.invoke(base, args);
+      duration = System.currentTimeMillis() - start;
+    } catch (Throwable t) {
+      Throwable cause = t.getCause();
+      duration = System.currentTimeMillis() - start;
+      try {
+        String name = UUID.randomUUID().toString().substring(0, 10);
+        File ss = new File(screenshots, sessionId + "_" + name + "_screen.png");
+        if (base instanceof TakesScreenshot) {
+          File tmp = ((TakesScreenshot) base).getScreenshotAs(OutputType.FILE);
+          tmp.renameTo(ss);
+        }
+        EventSink.add(new ScreenshotLog("WARN", method.getName(), duration, "threw : " + cause.getMessage(), null, ss));
+      } catch (Exception ignore) {
+
+      }
+      EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, " threw " + cause.getMessage(), null, null));
+      throw t.getCause();
+    }
+    File screenshot = null;
     switch (method.getName()) {
       case "findElement":
-        logger.info("augmenting element");
         WebElement el = (WebElement) res;
-        EventSink.add(new Log("INFO", "after " + method.getName() + (res == null ? "" : res.toString())));
-        return new WebElementAutoLogAugmenter().augment(el);
+        screenshot = takeScreenhotForCommand();
+        EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", res.toString(), screenshot));
+        return new WebElementAutoLogAugmenter().augment(el, base);
+      case "get":
+        screenshot = takeScreenhotForCommand();
+        EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", null, screenshot));
+        return res;
       case "getScreenshotAs":
         if (res instanceof File) {
           File f = (File) res;
           File dest = new File(screenshots, sessionId + "_screen.png");
           Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(dest.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
-          EventSink.add(new ScreenshotLog("INFO", "Screenshot", dest.getPath()));
+          EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", null, dest));
         } else {
           logger.warn("Only OutputType.File is supported.");
         }
         return res;
       default:
-        EventSink.add(new Log("INFO", "after " + method.getName() + (res == null ? "" : res.toString())));
+        EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "some message", (res == null ? "void" : res.toString()), null));
         return res;
     }
+  }
+
+
+  private File takeScreenhotForCommand() {
+    String name = UUID.randomUUID().toString().substring(0, 10);
+    File ss = new File(screenshots, sessionId + "_" + name + "_screen.png");
+    File tmp = ((TakesScreenshot) base).getScreenshotAs(OutputType.FILE);
+    tmp.renameTo(ss);
+    return ss;
+  }
+
+  private Object extractElementFromProxy(Object o) {
+    if (o instanceof WebElement) {
+      if (o instanceof WebElementWrapper) {
+        return ((WebElementWrapper) o).getWrappedElement();
+      }
+    }
+
+    if (o instanceof Object[]) {
+      Object[] objects = (Object[]) o;
+      for (int i = 0; i < objects.length; i++) {
+        objects[i] = extractElementFromProxy(objects[i]);
+      }
+    }
+    return o;
   }
 }
