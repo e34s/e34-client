@@ -72,7 +72,7 @@ public class SeleniumTest {
   }
 
 
-  @Test(dataProvider = "browser")
+  @Test(dataProvider = "browsers")
   public void selectionChMultiVideo(DesiredCapabilities cap) throws MalformedURLException {
     cap.setCapability("video", true);
     WebDriver driver = new RemoteWebDriver(new URL(Settings.getHub()), cap);

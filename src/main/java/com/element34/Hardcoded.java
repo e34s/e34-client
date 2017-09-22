@@ -5,7 +5,8 @@ package com.element34;
  */
 public class Hardcoded {
 
-  public static final String DEST = "/Users/freynaud/Documents/workspace/e34_report_fe/src/data/";
+  public static String DEST = ".";
+  public static String DATA = "data";
   public final static boolean DISABLE_LIVE = true;
   public final static String SCREENSHOTS_FOLDER = "screenshots";
 }
