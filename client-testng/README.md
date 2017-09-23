@@ -58,7 +58,12 @@ An example test code:
 ```
 
 ### 3. Report
+#### Viewing the report
 After the test run is finished, the test report is created under ```test-output/e34report.html```. The report can be viewed with any browser. At the moment there is an an issue with Internet Explorer. We recommend to use Chrome to take advantage of the full functionality. 
 
-The report is self-contained and can be shared. In order to view the videos in the report, a connection to the Selenium Box system is required. All other artifacts are stored locally. 
+#### Sharing the report
+The report is self-contained and can be shared by i.e. zipping the ```test-output``` folder and sending it to other individuals. 
+
+####Note: 
+In order to view the videos in the report, a connection to the Selenium Box system is required. All other artifacts are stored locally. 
 
