@@ -161,7 +161,7 @@
           <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
           <includes><include>**/*</include></includes>
           <repositoryName>e34-client</repositoryName>      <!-- github repo name -->
-          <repositoryOwner>freynaud</repositoryOwner>    <!-- github username  -->
+          <repositoryOwner>e34s</repositoryOwner>    <!-- github username  -->
           <userName>freynaud</userName>
         </configuration>
         <executions>
