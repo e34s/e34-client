@@ -2,8 +2,7 @@
 
 Use this client for adding reporting capabilities to your JUnit tests executed on the Selenium Box.
 
-The following setup is required: 
-
+### Required steps
 ### 1. Edit pom.xml 
 In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` repository-  
 ```xml
@@ -31,54 +30,39 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
 ```
 
 
-### Required steps
-#### 1. Create TestBase class
+### Add listeners to your tests
+You need to add the following listeners to your tests: ``SeleniumTestWatcher`` and ``SeleniumSuiteWatcher``. 
+
+A sample test looks like this. Note: the listeners can also be wired via other mechnanisms. 
+
 ```
-public class TestBase {
+public class DemoJunit {
 
   @Rule
-  public TestWatcher watcher = new SeleniumTestWatcher();
+  public TestWatcher watcher2 = new SeleniumTestWatcher();
 
-}
-```
+  @ClassRule
+  public static TestRule watcher1 = new SeleniumSuiteWatcher();
 
-
-
-#### 2. Extend your test class from TestBase
-Each test class needs to extend from TestBase. This can easily be done like so: 
-
-```public class SeleniumTest extends TestBase { ... ```
-
-
-#### 3. Augment your driver 
-In the test itself, your driver needs to be augmented in order to create the client side report. In your test add the following line after you instatiated your driver (depending on what your driver is called):
- 
-``` 
-driver = new DriverAutoLogAugmenter().augment(driver);
-```
-
-An example test code: 
-```java
- @Test
-  public void mytest() throws MalformedURLException, InterruptedException {
+  @Test
+  public void mytest() {
     ...
     ...
     WebDriver driver = new RemoteWebDriver(new URL("https://vm-105.element34.net/wd/hub"), chrome);
-    
-    //driver augmentation
+
     driver = new DriverAutoLogAugmenter().augment(driver);
+    ...
+    ...
     
-    //test code 
-    driver.get("https://google.com");
-    ...
-    ...
-    ...
     driver.quit();
+  }
+}
 ```
 
 ### 3. Report
 #### Viewing the report
-After the test run is finished, the test report is created under ????????. The report can be viewed with a standard browser. At the moment there is an an issue with Internet Explorer. We recommend to use Chrome to take advantage of the full functionality. 
+After the test run is finished, the test report is created in your main project directory by default. If you require the report to be generated elsewhere,please set the XXXXXsystem property to override the default setting. 
+The report can be viewed with a standard browser. At the moment there is an an issue with Internet Explorer. We recommend to use Chrome to take advantage of the full functionality. 
 
 #### Sharing the report
 The report is self-contained and can be shared by i.e. zipping the ??? folder and sending it to other individuals. 
