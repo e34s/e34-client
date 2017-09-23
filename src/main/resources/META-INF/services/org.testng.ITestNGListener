@@ -1,3 +1,0 @@
-com.element34.testng.listeners.ExecutionListener
-com.element34.testng.listeners.TestListener
-com.element34.testng.listeners.JsonReporter

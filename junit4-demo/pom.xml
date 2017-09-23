@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>e34-client</artifactId>
+    <groupId>com.element34</groupId>
+    <version>1.2.51-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>junit4-demo</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.element34</groupId>
+      <artifactId>client-junit4</artifactId>
+      <version>1.2.51-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>
