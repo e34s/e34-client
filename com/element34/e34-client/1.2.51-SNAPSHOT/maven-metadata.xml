@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>com.element34</groupId>
+  <artifactId>e34-client</artifactId>
+  <version>1.2.51-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170923.134910</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20170923134910</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.2.51-20170923.134910-1</value>
+        <updated>20170923134910</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

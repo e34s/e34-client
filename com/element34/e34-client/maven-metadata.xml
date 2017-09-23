@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.element34</groupId>
+  <artifactId>e34-client</artifactId>
+  <versioning>
+    <versions>
+      <version>1.2.51-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170923134910</lastUpdated>
+  </versioning>
+</metadata>
