@@ -30,10 +30,12 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
 ```
 
 
-### Add listeners to your tests
+### 2. Add listeners to your tests
 You need to add the following listeners to your tests: ``SeleniumTestWatcher`` and ``SeleniumSuiteWatcher``. 
 
-A sample test looks like this. Note: the listeners can also be wired via other mechnanisms. 
+A sample test looks like this. Note: the listeners can also be wired via other mechnanisms (i.e. extending from a TestBase class). 
+
+**JUnitSuite.java**
 ```
 @RunWith(Suite.class)
 @Suite.SuiteClasses({DemoJunit.class})
@@ -44,6 +46,7 @@ public class JunitSuite {
 }
 ```
 
+**DemoJunit.java**
 ```
 public class DemoJunit {
 
