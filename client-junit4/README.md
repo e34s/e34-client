@@ -34,15 +34,21 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
 You need to add the following listeners to your tests: ``SeleniumTestWatcher`` and ``SeleniumSuiteWatcher``. 
 
 A sample test looks like this. Note: the listeners can also be wired via other mechnanisms. 
+```
+@RunWith(Suite.class)
+@Suite.SuiteClasses({DemoJunit.class})
+public class JunitSuite {
+
+  @ClassRule
+  public static TestRule suiteWatcher = new SeleniumSuiteWatcher();
+}
+```
 
 ```
 public class DemoJunit {
 
   @Rule
-  public TestWatcher watcher2 = new SeleniumTestWatcher();
-
-  @ClassRule
-  public static TestRule watcher1 = new SeleniumSuiteWatcher();
+  public TestWatcher testwatcher = new SeleniumTestWatcher();
 
   @Test
   public void mytest() {
@@ -62,7 +68,9 @@ public class DemoJunit {
 ### 3. Report
 #### Viewing the report
 After the test run is finished, the test report is created in your main project directory by default. If you require the report to be generated elsewhere,please set the XXXXXsystem property to override the default setting. 
-The report can be viewed with a standard browser. At the moment there is an an issue with Internet Explorer. We recommend to use Chrome to take advantage of the full functionality. 
+The report can be viewed with a standard browser. 
+
+Screenshots are put in the ```/screenshots```  directory on the main project level. 
 
 #### Sharing the report
 The report is self-contained and can be shared by i.e. zipping the ??? folder and sending it to other individuals. 
