@@ -11,9 +11,9 @@
   <modules>
     <module>client-common</module>
     <module>client-junit4</module>
-    <!--<module>client-testng</module>-->
-    <!--<module>testng-demo</module>-->
-    <!--<module>junit4-demo</module>-->
+    <module>client-testng</module>
+    <module>testng-demo</module>
+    <module>junit4-demo</module>
   </modules>
 
 
@@ -91,6 +91,7 @@
           <repositoryName>e34-client</repositoryName>      <!-- github repo name -->
           <repositoryOwner>e34s</repositoryOwner>    <!-- github username  -->
           <userName>e34s</userName>
+          <merge>true</merge>
         </configuration>
         <executions>
           <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->

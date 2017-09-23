@@ -1,4 +1,4 @@
-package testng.listeners;
+package com.element34.testng.listeners;
 
 import com.element34.test.E34TestListener;
 import java.lang.reflect.Method;
@@ -15,6 +15,7 @@ public class TestListener implements IInvokedMethodListener2 {
 
   @Override
   public void beforeInvocation(IInvokedMethod method, ITestResult testResult, ITestContext context) {
+    System.out.println("TestListener beforeInvocation");
     ConstructorOrMethod cm = method.getTestMethod().getConstructorOrMethod();
     if (cm.getMethod() != null && method.isTestMethod()) {
       Method m = cm.getMethod();

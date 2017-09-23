@@ -1,4 +1,4 @@
-package testng.listeners;
+package com.element34.testng.listeners;
 
 import com.element34.test.E34ReporterListener;
 import java.util.List;

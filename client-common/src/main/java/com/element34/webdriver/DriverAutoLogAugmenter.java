@@ -43,7 +43,6 @@ public class DriverAutoLogAugmenter {
       RemoteWebDriver rd = (RemoteWebDriver) base;
       result.setSessionId(rd.getSessionId().toString());
       result.addTag("browser", rd.getCapabilities().getBrowserName());
-      System.out.println(rd.getCapabilities());
       String version = rd.getCapabilities().getVersion();
       if (version == null || version.isEmpty()) {
         Object o = rd.getCapabilities().getCapability("browserVersion");

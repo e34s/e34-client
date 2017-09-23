@@ -20,6 +20,8 @@ public class E34ExecutionListener {
 
     // ReportSink.addListener((event) -> logger.info(event.toString()));
 
+    System.out.println("E34ExecutionListener starts");
+
     if (!Hardcoded.DISABLE_LIVE) {
       monitor.start();
     }
@@ -27,6 +29,7 @@ public class E34ExecutionListener {
   }
 
   public void unzipReport(File destination) {
+    System.out.println("E34ExecutionListener unzipReport");
     Hardcoded.DEST = new File(destination, Hardcoded.DATA).getAbsolutePath();
     try {
       extract(destination);
@@ -43,6 +46,7 @@ public class E34ExecutionListener {
 
 
   private void extract(File dest) throws IOException {
+
     checkNotNull(dest);
     File report = new File(dest, "e34report.html");
     if (report.exists()) {
