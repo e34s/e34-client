@@ -6,6 +6,8 @@ import com.element34.webdriver.DriverAutoLogAugmenter;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -23,6 +25,7 @@ import org.testng.annotations.Test;
 @Listeners(ParallelMethods.class)
 public class SeleniumTest {
 
+  private final Logger logger = LogManager.getLogger(this.getClass());
 
   @Test
   public void chrome() throws MalformedURLException, InterruptedException {
@@ -32,11 +35,14 @@ public class SeleniumTest {
 
     driver = new DriverAutoLogAugmenter().augment(driver);
 
+    logger.info("about to open page");
     driver.get("about:policy");
     WebElement reload = driver.findElement(By.id("reload-policies"));
+    logger.trace("got element");
     TakesScreenshot ts = (TakesScreenshot) driver;
     File f = ts.getScreenshotAs(OutputType.FILE);
-    System.out.println(reload.getText());
+    String text = reload.getText();
+    logger.warn("text was " + text);
     driver.quit();
   }
 
@@ -50,8 +56,8 @@ public class SeleniumTest {
     return new Object[][]{
         {DesiredCapabilities.firefox()},
         {DesiredCapabilities.chrome()},
-        {DesiredCapabilities.edge()},
-        {DesiredCapabilities.internetExplorer()}
+//        {DesiredCapabilities.edge()},
+//        {DesiredCapabilities.internetExplorer()}
     };
   }
 
