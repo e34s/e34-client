@@ -14,7 +14,6 @@ public class SeleniumTestWatcher extends TestWatcher {
 
   @Override
   protected void starting(Description description) {
-
     String[] pieces = description.getClassName().split("\\.");
     String clazz = pieces[pieces.length - 1];
     String packageName = description.getClassName().replace("." + clazz, "");

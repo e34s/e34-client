@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -77,6 +79,16 @@ public class DriverAutoLogHandler implements InvocationHandler {
         screenshot = takeScreenhotForCommand();
         EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", res.toString(), screenshot));
         return new WebElementAutoLogAugmenter().augment(el, base);
+      case "findElements":
+        List<WebElement> els = (List<WebElement>) res;
+        screenshot = takeScreenhotForCommand();
+        EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", res.toString(), screenshot));
+        List<WebElement> augmenteds = new ArrayList<>();
+        for (WebElement e : els) {
+          augmenteds.add(new WebElementAutoLogAugmenter().augment(e, base));
+        }
+        EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", res.toString(), screenshot));
+        return augmenteds;
       case "get":
         screenshot = takeScreenhotForCommand();
         EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", null, screenshot));
