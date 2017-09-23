@@ -32,7 +32,7 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
 
 
 ### 2. Augment your driver 
-In your test add the following line after you instatiated your driver:
+Your driver needs to be augmented in order to create the client side report. In your test add the following line after you instatiated your driver (depending on what your driver is called):
  
 ``` 
 driver = new DriverAutoLogAugmenter().augment(driver);
@@ -41,7 +41,7 @@ driver = new DriverAutoLogAugmenter().augment(driver);
 An example test code: 
 ```java
  @Test
-  public void ff() throws MalformedURLException, InterruptedException {
+  public void mytest() throws MalformedURLException, InterruptedException {
     ...
     ...
     WebDriver driver = new RemoteWebDriver(new URL("https://vm-105.element34.net/wd/hub"), chrome);
@@ -56,4 +56,9 @@ An example test code:
     ...
     driver.quit();
 ```
+
+### 3. Report
+After the test run is finished, the test report is created under ```test-output/e34report.html```. The report can be viewed with any browser. At the moment there is an an issue with Internet Explorer. We recommend to use Chrome to take advantage of the full functionality. 
+
+the report is self-comtained and can be shared. In order to view the videos, a connection to the Selenium Box system is required. All other artifacts are stored locally. 
 
