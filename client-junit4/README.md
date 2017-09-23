@@ -10,7 +10,7 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
 
  <dependencies>
     <dependency>
-      <artifactId>client-testng</artifactId>
+      <artifactId>client-junit</artifactId>
       <groupId>com.element34</groupId>
       <version>1.2.51-SNAPSHOT</version>
     </dependency>
@@ -31,15 +31,27 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
 ```
 
 
-### Modifications to your test
-#### 1. Extend TestBase
+### Required steps
+#### 1. Create TestBase class
+```
+public class TestBase {
+
+  @Rule
+  public TestWatcher watcher = new SeleniumTestWatcher();
+
+}
+```
+
+
+
+#### 2. Extend your test class from TestBase
 Each test class needs to extend from TestBase. This can easily be done like so: 
 
 ```public class SeleniumTest extends TestBase { ... ```
 
 
-#### 2. Augment your driver 
-Your driver needs to be augmented in order to create the client side report. In your test add the following line after you instatiated your driver (depending on what your driver is called):
+#### 3. Augment your driver 
+In the test itself, your driver needs to be augmented in order to create the client side report. In your test add the following line after you instatiated your driver (depending on what your driver is called):
  
 ``` 
 driver = new DriverAutoLogAugmenter().augment(driver);
@@ -66,10 +78,10 @@ An example test code:
 
 ### 3. Report
 #### Viewing the report
-After the test run is finished, the test report is created under ```test-output/e34report.html```. The report can be viewed with any browser. At the moment there is an an issue with Internet Explorer. We recommend to use Chrome to take advantage of the full functionality. 
+After the test run is finished, the test report is created under ????????. The report can be viewed with a standard browser. At the moment there is an an issue with Internet Explorer. We recommend to use Chrome to take advantage of the full functionality. 
 
 #### Sharing the report
-The report is self-contained and can be shared by i.e. zipping the ```test-output``` folder and sending it to other individuals. 
+The report is self-contained and can be shared by i.e. zipping the ??? folder and sending it to other individuals. 
 
 #### Note: 
 In order to view the videos in the report, a connection to the Selenium Box system is required. All other artifacts are stored locally. 
