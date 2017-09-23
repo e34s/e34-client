@@ -66,7 +66,6 @@ public class TestResult implements Event {
 
 
   public synchronized static TestResult create() {
-    System.out.println("create test result");
     TestResult result = results.get();
     if (result != null) {
       return result;
