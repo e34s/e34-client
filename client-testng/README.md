@@ -64,6 +64,6 @@ After the test run is finished, the test report is created under ```test-output/
 #### Sharing the report
 The report is self-contained and can be shared by i.e. zipping the ```test-output``` folder and sending it to other individuals. 
 
-####Note: 
+#### Note: 
 In order to view the videos in the report, a connection to the Selenium Box system is required. All other artifacts are stored locally. 
 
