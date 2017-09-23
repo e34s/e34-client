@@ -11,3 +11,5 @@ The test reports can also be published in Jenkins on a per job basis. Please con
 
 ![alt text](/images/html-publisher.PNG "HTML publisher setup")
   
+- the report can be viewed directly in Jenkins by clicking on the "HTML report" link in the respective job. 
+![alt text](/images/html-publisher-left.PNG "HTML publisher link")
