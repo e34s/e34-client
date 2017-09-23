@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>com.element34</groupId>
-  <artifactId>client-common</artifactId>
+  <artifactId>client-junit4</artifactId>
   <versioning>
     <versions>
       <version>1.2.51-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20170923134355</lastUpdated>
+    <lastUpdated>20170923134441</lastUpdated>
   </versioning>
 </metadata>
