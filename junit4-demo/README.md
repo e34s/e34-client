@@ -1,6 +1,6 @@
-# Element34 Selenium Box - TestNG Reporting Client
+# Element34 Selenium Box - JUnit Reporting Client
 
-Use this client for adding reporting capabilities to your TestNG tests executed on the Selenium Box.
+Use this client for adding reporting capabilities to your JUnit tests executed on the Selenium Box.
 
 The following setup is required: 
 
@@ -31,7 +31,14 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
 ```
 
 
-### 2. Augment your driver 
+### Modifications to your test
+#### 1. Extend TestBase
+Each test class needs to extend from TestBase. This can easily be done like so: 
+
+```public class SeleniumTest extends TestBase { ... ```
+
+
+#### 2. Augment your driver 
 Your driver needs to be augmented in order to create the client side report. In your test add the following line after you instatiated your driver (depending on what your driver is called):
  
 ``` 
