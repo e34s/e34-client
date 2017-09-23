@@ -11,9 +11,9 @@
   <modules>
     <module>client-common</module>
     <module>client-junit4</module>
-    <module>client-testng</module>
-    <module>testng-demo</module>
-    <module>junit4-demo</module>
+    <!--<module>client-testng</module>-->
+    <!--<module>testng-demo</module>-->
+    <!--<module>junit4-demo</module>-->
   </modules>
 
 
@@ -66,6 +66,7 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>2.8.1</version>
@@ -73,6 +74,8 @@
           <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
         </configuration>
       </plugin>
+
+
       <plugin>
         <groupId>com.github.github</groupId>
         <artifactId>site-maven-plugin</artifactId>
@@ -87,7 +90,7 @@
           </includes>
           <repositoryName>e34-client</repositoryName>      <!-- github repo name -->
           <repositoryOwner>e34s</repositoryOwner>    <!-- github username  -->
-          <userName>freynaud</userName>
+          <userName>e34s</userName>
         </configuration>
         <executions>
           <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
@@ -101,8 +104,11 @@
 
         </executions>
       </plugin>
+
     </plugins>
+
   </build>
+
 
 </project>
 
