@@ -58,18 +58,18 @@ public class DriverAutoLogHandler implements InvocationHandler {
     } catch (Throwable t) {
       Throwable cause = t.getCause();
       duration = System.currentTimeMillis() - start;
+      File ss = null;
       try {
         String name = UUID.randomUUID().toString().substring(0, 10);
-        File ss = new File(screenshots, sessionId + "_" + name + "_screen.png");
+        ss = new File(screenshots, sessionId + "_" + name + "_screen.png");
         if (base instanceof TakesScreenshot) {
           File tmp = ((TakesScreenshot) base).getScreenshotAs(OutputType.FILE);
           tmp.renameTo(ss);
         }
-        EventSink.add(new ScreenshotLog("WARN", method.getName(), duration, "threw : " + cause.getMessage(), null, ss));
       } catch (Exception ignore) {
 
       }
-      EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, " threw " + cause.getMessage(), null, null));
+      EventSink.add(new ScreenshotLog("WARN", method.getName(), duration, "threw : " + cause.getMessage(), null, ss));
       throw t.getCause();
     }
     File screenshot = null;
