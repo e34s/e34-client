@@ -3,6 +3,7 @@ package com.element34.stream;
 import com.element34.E34Settings;
 import com.element34.report.ReportSink;
 import java.awt.Desktop;
+import java.io.File;
 import java.net.URI;
 import java.util.concurrent.TimeoutException;
 import org.eclipse.jetty.server.Server;
@@ -55,7 +56,7 @@ public class JettyMonitor {
     Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
     if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
       try {
-        desktop.browse(URI.create(SERVER_LIVE_REPORT));
+        desktop.browse(new File(SERVER_LIVE_REPORT).toURI());
       } catch (Exception e) {
         e.printStackTrace();
       }
