@@ -11,7 +11,7 @@ If you want to make the test report viewable as part of the Jenkins job you need
 - install the HTML publisher plugin 
 - set ``System.setProperty(“hudson.model.DirectoryBrowserSupport.CSP”, “”)`` in order to allow publishing of the HTML report 
 - in the job configuration add a Post-Build-Action to publish the report
-- adapt the paths if required to your actual report location
+- change the paths if required to your actual report location
 
 ![alt text](/images/html-publisher.PNG "HTML publisher setup")
   
