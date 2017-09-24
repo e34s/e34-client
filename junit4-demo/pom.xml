@@ -36,6 +36,17 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20.1</version>
+        <configuration>
+          <parallel>methods</parallel>
+          <threadCount>10</threadCount>
+          <reportsDirectory>${project.build.directory}/surefire-reports2</reportsDirectory>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

@@ -70,9 +70,11 @@ public class DemoJunit {
 
 ### 3. Report
 #### Viewing the report
-After the test run is finished, the test report is created in your main project directory by default. If you require the report to be generated elsewhere,please set the outputDirectory system property to override the default setting. 
+After the test run is finished, the test report is created in your main project directory by default. If you require the report to be generated elsewhere,please set the reportsDirectory (from the command line, not in the pom) system property to override the default setting. 
 The report can be viewed with a standard browser. 
-
+```
+mvn test  -DreportsDirectory="/Users/freynaud/report" 
+```
 Screenshots are put in the ```/screenshots```  directory on the main project level. 
 
 #### Sharing the report

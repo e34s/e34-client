@@ -35,7 +35,24 @@ public class SeleniumTest extends TestBase {
     TakesScreenshot ts = (TakesScreenshot) driver;
     File f = ts.getScreenshotAs(OutputType.FILE);
     System.out.println(reloads.get(0).getText());
-    //Thread.sleep(20000);
+//    Thread.sleep(10000);
+    driver.quit();
+  }
+
+  @Test
+  public void chrome2() throws MalformedURLException, InterruptedException {
+    DesiredCapabilities chrome = DesiredCapabilities.chrome();
+    chrome.setCapability("video",true);
+    WebDriver driver = new RemoteWebDriver(new URL(Settings.getHub()), chrome);
+
+    driver = new DriverAutoLogAugmenter().augment(driver);
+
+    driver.get("about:policy");
+    List<WebElement> reloads = driver.findElements(By.id("reload-policies"));
+    TakesScreenshot ts = (TakesScreenshot) driver;
+    File f = ts.getScreenshotAs(OutputType.FILE);
+    System.out.println(reloads.get(0).getText());
+//    Thread.sleep(10000);
     driver.quit();
   }
 }
