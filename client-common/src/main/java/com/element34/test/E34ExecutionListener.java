@@ -2,7 +2,7 @@ package com.element34.test;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.element34.Hardcoded;
+import com.element34.E34Settings;
 import com.element34.stream.JettyMonitor;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,16 +18,14 @@ public class E34ExecutionListener {
 
   public void onStart() {
 
-    // ReportSink.addListener((event) -> logger.info(event.toString()));
-
-    if (!Hardcoded.DISABLE_LIVE) {
+    if (!E34Settings.DISABLE_LIVE) {
       monitor.start();
     }
 
   }
 
   public void unzipReport(File destination) {
-    Hardcoded.DEST = new File(destination, Hardcoded.DATA).getAbsolutePath();
+    E34TestListener.DEST = new File(destination, E34Settings.DATA).getAbsolutePath();
     try {
       extract(destination);
     } catch (IOException e) {
@@ -36,7 +34,7 @@ public class E34ExecutionListener {
   }
 
   public void stop() {
-    if (!Hardcoded.DISABLE_LIVE) {
+    if (!E34Settings.DISABLE_LIVE) {
       monitor.stop();
     }
   }

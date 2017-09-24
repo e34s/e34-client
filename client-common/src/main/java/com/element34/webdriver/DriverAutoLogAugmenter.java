@@ -14,9 +14,7 @@ import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-/**
- * Created by freynaud on 31/08/2017.
- */
+
 public class DriverAutoLogAugmenter {
 
 

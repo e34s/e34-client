@@ -1,6 +1,6 @@
 package com.element34.report;
 
-import com.element34.Hardcoded;
+import com.element34.E34Settings;
 import java.io.File;
 
 /**
@@ -15,7 +15,7 @@ public class ScreenshotLog extends Log {
 
   public ScreenshotLog(String level, String command, long duration, String message, String result,File path) {
     super(level, message);
-    this.path = ( path == null  ? null :  Hardcoded.SCREENSHOTS_FOLDER+"/"+path.getName());
+    this.path = ( path == null  ? null :  E34Settings.SCREENSHOTS_FOLDER+"/"+path.getName());
     this.command = command;
     this.duration = duration;
     this.result = result;

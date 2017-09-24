@@ -3,6 +3,7 @@ package com.element34.test;
 
 public class E34TestListener {
 
+  public static String DEST = ".";
 
   public void onTestStarts(String className, String packageName, String methodName, Object[] params) {
     TestResult result = TestResult.create();

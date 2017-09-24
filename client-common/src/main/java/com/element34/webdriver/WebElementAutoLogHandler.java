@@ -1,8 +1,9 @@
 package com.element34.webdriver;
 
-import com.element34.Hardcoded;
+import com.element34.E34Settings;
 import com.element34.report.EventSink;
 import com.element34.report.ScreenshotLog;
+import com.element34.test.E34TestListener;
 import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -25,7 +26,7 @@ public class WebElementAutoLogHandler implements InvocationHandler {
     sessionId = ((RemoteWebDriver) driver).getSessionId().toString();
     this.base = base;
     this.driver = driver;
-    screenshots = new File(Hardcoded.DEST, Hardcoded.SCREENSHOTS_FOLDER);
+    screenshots = new File(E34TestListener.DEST, E34Settings.SCREENSHOTS_FOLDER);
     screenshots.mkdirs();
     //logger.info("screenshots : " + screenshots.getAbsolutePath());
   }

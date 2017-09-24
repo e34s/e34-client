@@ -6,9 +6,6 @@ import java.io.File;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-/**
- * Created by freynaud on 03/09/2017.
- */
 public class SeleniumSuiteWatcher extends TestWatcher {
 
   E34ExecutionListener executionListener = new E34ExecutionListener();

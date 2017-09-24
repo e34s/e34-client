@@ -16,9 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 
-/**
- * Created by freynaud on 05/09/2017.
- */
+
 public class Run implements Event {
 
 
