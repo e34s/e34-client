@@ -7,7 +7,7 @@
   <groupId>com.element34</groupId>
   <artifactId>e34-client</artifactId>
   <packaging>pom</packaging>
-  <version>1.2.51-SNAPSHOT</version>
+  <version>1.2.51</version>
   <modules>
     <module>client-common</module>
     <module>client-junit4</module>
