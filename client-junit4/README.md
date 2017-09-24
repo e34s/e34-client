@@ -70,13 +70,13 @@ public class DemoJunit {
 
 ### 3. Report
 #### Viewing the report
-After the test run is finished, the test report is created in your main project directory by default. If you require the report to be generated elsewhere,please set the XXXXXsystem property to override the default setting. 
+After the test run is finished, the test report is created in your main project directory by default. If you require the report to be generated elsewhere,please set the outputDirectory system property to override the default setting. 
 The report can be viewed with a standard browser. 
 
 Screenshots are put in the ```/screenshots```  directory on the main project level. 
 
 #### Sharing the report
-The report is self-contained and can be shared by i.e. zipping the ??? folder and sending it to other individuals. 
+The report is self-contained and can be shared by i.e. zipping the folder containing the e34report.html and sending it to other individuals. 
 
 #### Note: 
 In order to view the videos in the report, a connection to the Selenium Box system is required. All other artifacts are stored locally. 

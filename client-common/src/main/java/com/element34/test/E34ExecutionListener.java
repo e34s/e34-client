@@ -26,6 +26,7 @@ public class E34ExecutionListener {
 
   public void unzipReport(File destination) {
     E34TestListener.DEST = new File(destination, E34Settings.DATA).getAbsolutePath();
+    System.out.println("com.element34.testE34.E34ExecutionListener "+destination.getAbsolutePath()+"/e34report.html");
     try {
       extract(destination);
     } catch (IOException e) {

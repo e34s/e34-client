@@ -14,7 +14,7 @@ public class SeleniumSuiteWatcher extends TestWatcher {
 
   @Override
   protected void starting(Description desc) {
-    String output = System.getProperty("E34_REPORT_OUPUT");
+    String output = System.getProperty("outputDirectory");
     if (output ==null){
       output = "e34report";
     }
