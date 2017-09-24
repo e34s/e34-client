@@ -70,12 +70,13 @@ public class DemoJunit {
 
 ### 3. Report
 #### Viewing the report
-After the test run is finished, the test report is created in your main project directory by default. If you require the report to be generated elsewhere,please set the reportsDirectory (from the command line, not in the pom) system property to override the default setting. 
-The report can be viewed with a standard browser. 
+After the test run is finished, the test report is created in ```/e34report``` by default.`Screenshots are put in the ```/screenshots```  directory on the main project level. 
+If you require the report to be generated elsewhere, set the reportsDirectory (from the command line, not in the pom) system property to override the default setting. 
 ```
-mvn test  -DreportsDirectory="/Users/freynaud/report" 
+mvn test  -DreportsDirectory="/some-path/your-report-directory" 
 ```
-Screenshots are put in the ```/screenshots```  directory on the main project level. 
+
+To view the report, just open ```e34report.html``` in a standard browser. 
 
 #### Sharing the report
 The report is self-contained and can be shared by i.e. zipping the folder containing the e34report.html and sending it to other individuals. 
