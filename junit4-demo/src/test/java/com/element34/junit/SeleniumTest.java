@@ -35,7 +35,7 @@ public class SeleniumTest extends TestBase {
     TakesScreenshot ts = (TakesScreenshot) driver;
     File f = ts.getScreenshotAs(OutputType.FILE);
     System.out.println(reloads.get(0).getText());
-//    Thread.sleep(10000);
+    Thread.sleep(10000);
     driver.quit();
   }
 

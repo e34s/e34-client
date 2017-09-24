@@ -1,5 +1,6 @@
 package com.element34.stream;
 
+import com.element34.E34Settings;
 import com.element34.report.ReportSink;
 import java.awt.Desktop;
 import java.net.URI;
@@ -10,20 +11,17 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 
 public class JettyMonitor {
 
-  private final String SERVER_LIVE_REPORT = "http://localhost:4200";
+  public static String SERVER_LIVE_REPORT = "unknown";
   private final Server server;
 
-  public JettyMonitor()  {
-    server = new Server(8080);
+  public JettyMonitor() {
+    server = new Server(E34Settings.E34_PORT);
     ServletContextHandler root = new ServletContextHandler(ServletContextHandler.SESSIONS);
     server.setHandler(root);
     root.addServlet(EventServlet.class, "/e34/ws/*");
   }
 
 
-  public static void main(String[] args) {
-    new JettyMonitor().start();
-  }
   public void start() {
     try {
       server.start();

@@ -57,7 +57,7 @@ public class DriverAutoLogAugmenter {
         CommandExecutor exec = rd.getCommandExecutor();
         if (exec instanceof HttpCommandExecutor) {
           URL url = ((HttpCommandExecutor) exec).getAddressOfRemoteServer();
-          hubBase = url.toExternalForm().replace("/wd/hub", "");
+          hubBase = url.toExternalForm().replace("/wd/hub/", "").replace("/wd/hub", "");
           result.addTag("e34_hub", hubBase);
           Object video = (rd.getCapabilities().getCapability("videoEnabled"));
 

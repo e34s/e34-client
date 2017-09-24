@@ -14,7 +14,7 @@ public class ExecutionListener implements IExecutionListener, ISuiteListener {
 
   @Override
   public void onExecutionStart() {
-    e34ExecutionListener.onStart();
+
   }
 
   @Override
@@ -27,6 +27,7 @@ public class ExecutionListener implements IExecutionListener, ISuiteListener {
     String out = suite.getOutputDirectory();
     File parent = new File(out).getParentFile();
     e34ExecutionListener.unzipReport(parent.getAbsoluteFile());
+    e34ExecutionListener.onStart();
   }
 
   @Override

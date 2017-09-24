@@ -18,8 +18,8 @@ public class SeleniumSuiteWatcher extends TestWatcher {
     if (output ==null){
       output = "e34report";
     }
-    executionListener.onStart();
     executionListener.unzipReport(new File(output));
+    executionListener.onStart();
   }
 
   @Override
