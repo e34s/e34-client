@@ -99,7 +99,8 @@ public class DriverAutoLogHandler implements InvocationHandler {
           File f = (File) res;
           File dest = new File(screenshots, sessionId + "_screen.png");
           Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(dest.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
-          EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", null, dest));
+          // this is a user generated log. Not setting the command as this is what is used to detect an auto logged WD in the report data.
+          EventSink.add(new ScreenshotLog("INFO", null, duration, "success", null, dest));
         } else {
           System.err.println("Only OutputType.File is supported.");
         }

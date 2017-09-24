@@ -158,7 +158,7 @@ public class SeleniumTest {
     WebDriver driver = new RemoteWebDriver(new URL(Settings.getHub()), cap);
 
     driver = new DriverAutoLogAugmenter().augment(driver);
-
+    logger.info("got driver");
     try {
       driver.get("http://static.element34.net/the-internet/");
       high("A/B Testing", driver);
@@ -167,6 +167,7 @@ public class SeleniumTest {
         high("Basic Auth2", driver);
       } catch (Exception e) {
         // ignore;
+        logger.warn("exception", e);
       }
       high("Basic Auth3", driver);
     } finally {
