@@ -18,6 +18,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -172,6 +173,11 @@ public class SeleniumTest {
       driver.quit();
     }
 
+  }
+
+  @Test(dependsOnMethods = "someExceptions")
+  public void depends() {
+    throw new SkipException("");
   }
 
 }
