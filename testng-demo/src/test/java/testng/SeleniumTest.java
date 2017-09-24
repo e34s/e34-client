@@ -152,7 +152,7 @@ public class SeleniumTest {
 
 
   @Test
-  public void someExceptions() throws MalformedURLException {
+  public void someExceptions() throws MalformedURLException, InterruptedException {
     DesiredCapabilities cap = DesiredCapabilities.chrome();
     cap.setCapability("video", true);
     WebDriver driver = new RemoteWebDriver(new URL(Settings.getHub()), cap);
@@ -170,7 +170,12 @@ public class SeleniumTest {
         logger.warn("exception", e);
       }
       high("Basic Auth3", driver);
+
     } finally {
+      for (int i = 0; i < 20; i++) {
+        Thread.sleep(1000);
+        high("Basic Auth", driver);
+      }
       driver.quit();
     }
 

@@ -142,6 +142,11 @@ public class TestResult implements Event {
     update("tags", tags);
   }
 
+  public synchronized void setVideo(String video) {
+    this.video = video;
+    update("video", video);
+  }
+
   public synchronized void add(Log log) {
     log.setTestId(id);
     logs.add(log);
@@ -216,9 +221,7 @@ public class TestResult implements Event {
   }
 
 
-  public void setVideo(String video) {
-    this.video = video;
-  }
+
 
   public TestStatus getStatus() {
     return status;

@@ -4,9 +4,6 @@ import static com.element34.test.Run.sleepTight;
 
 import com.element34.test.TestResult;
 
-/**
- * Created by freynaud on 03/09/2017.
- */
 public class EventSink {
 
 
