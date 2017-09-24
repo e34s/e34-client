@@ -11,7 +11,7 @@ In your pom.xml add the ``client-testng`` dependency along with the ``e34s`` rep
     <dependency>
       <artifactId>client-junit</artifactId>
       <groupId>com.element34</groupId>
-      <version>1.2.51</version>
+      <version>1.2.52.SNAPSHOT</version>
     </dependency>
   </dependencies>
 ```
