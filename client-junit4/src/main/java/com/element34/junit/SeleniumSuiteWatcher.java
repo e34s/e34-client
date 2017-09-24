@@ -1,5 +1,6 @@
 package com.element34.junit;
 
+import com.element34.E34Settings;
 import com.element34.test.E34ExecutionListener;
 import com.element34.test.E34ReporterListener;
 import java.io.File;

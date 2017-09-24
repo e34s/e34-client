@@ -106,7 +106,7 @@ public class DriverAutoLogHandler implements InvocationHandler {
         }
         return res;
       default:
-        EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "some message", (res == null ? "void" : res.toString()), null));
+        EventSink.add(new ScreenshotLog("INFO", method.getName(), duration, "success", (res == null ? "void" : res.toString()), null));
         return res;
     }
   }
