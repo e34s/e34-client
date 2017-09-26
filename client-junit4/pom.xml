@@ -5,7 +5,7 @@
   <parent>
     <artifactId>e34-client</artifactId>
     <groupId>com.element34</groupId>
-    <version>1.2.52.SNAPSHOT</version>
+    <version>1.2.52-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -16,7 +16,7 @@
     <dependency>
       <groupId>com.element34</groupId>
       <artifactId>client-common</artifactId>
-      <version>1.2.52.SNAPSHOT</version>
+      <version>1.2.52-SNAPSHOT</version>
     </dependency>
 
     <dependency>
